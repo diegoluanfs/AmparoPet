@@ -1,0 +1,7 @@
+﻿Para criar as migrations pela primeira vez:
+
+	dotnet ef migrations add InitialCreate --project [caminho completo do diretório]
+
+Para atualizar o banco de dados:
+
+	dotnet ef database update --project [caminho completo do diretório]
