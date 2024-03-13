@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.AmparoPet.Data;
 
-public class SchoolContext : DbContext
+public class AmparoPetContext : DbContext
 {
-    public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
+    public AmparoPetContext(DbContextOptions<AmparoPetContext> options) : base(options)
     {
     }
 

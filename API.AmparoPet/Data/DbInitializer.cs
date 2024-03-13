@@ -2,7 +2,7 @@
 
 public static class DbInitializer
 {
-    public static void Initialize(SchoolContext context)
+    public static void Initialize(AmparoPetContext context)
     {
 
     }

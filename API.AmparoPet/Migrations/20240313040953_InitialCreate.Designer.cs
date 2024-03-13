@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.AmparoPet.Migrations
 {
-    [DbContext(typeof(SchoolContext))]
-    [Migration("20240312040553_InitialCreate")]
+    [DbContext(typeof(AmparoPetContext))]
+    [Migration("20240313040953_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<SchoolContext>(options =>
+builder.Services.AddDbContext<AmparoPetContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AmparoPetContext")));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -28,7 +28,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<SchoolContext>();
+    var context = services.GetRequiredService<AmparoPetContext>();
 
     context.Database.Migrate();
 
