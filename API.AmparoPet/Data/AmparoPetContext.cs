@@ -12,6 +12,7 @@ public class AmparoPetContext : DbContext
     public DbSet<Pet> Pets { get; set; }
     public DbSet<Carer> Caregivers { get; set; }
     public DbSet<Vaccine> Vaccines { get; set; }
+    public DbSet<Photo> Photos { get; set; }
     public DbSet<CardVaccine> CardVaccines { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,11 +26,17 @@ public class AmparoPetContext : DbContext
             .HasMany(c => c.Caregivers)
             .WithMany(i => i.Pets);
 
+        modelBuilder.Entity<Pet>()
+            .HasMany(c => c.Photos)
+            .WithMany(i => i.Pets);
+
         modelBuilder.Entity<Carer>().ToTable(nameof(Carer));
         modelBuilder.Entity<Vaccine>().ToTable(nameof(Vaccine));
         modelBuilder.Entity<Vaccine>()
             .HasOne(v => v.CardVaccine)
             .WithMany()
             .HasForeignKey(v => v.CardVaccineId);
+
+        modelBuilder.Entity<Photo>().ToTable(nameof(Photo));
     }
 }
