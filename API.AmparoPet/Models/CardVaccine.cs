@@ -4,16 +4,15 @@ using System.Xml.Linq;
 
 namespace API.AmparoPet.Models
 {
-    public class Pet
+    public class CardVaccine
     {
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
-        public int PetID { get; set; }
+        public int CardVaccineID { get; set; }
 
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
-        public CardVaccine CardVaccine { get; set; }
-        public ICollection<Carer> Caregivers { get; set; }
+        public Pet Pet { get; set; }
     }
 }

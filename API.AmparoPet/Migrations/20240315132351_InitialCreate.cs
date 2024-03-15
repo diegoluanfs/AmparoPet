@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -8,6 +9,18 @@ namespace API.AmparoPet.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CardVaccines",
+                columns: table => new
+                {
+                    CardVaccineID = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardVaccines", x => x.CardVaccineID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Carer",
                 columns: table => new
@@ -32,6 +45,27 @@ namespace API.AmparoPet.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pet", x => x.PetID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vaccine",
+                columns: table => new
+                {
+                    VaccineId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AdministeredDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CardVaccineId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vaccine", x => x.VaccineId);
+                    table.ForeignKey(
+                        name: "FK_Vaccine_CardVaccines_CardVaccineId",
+                        column: x => x.CardVaccineId,
+                        principalTable: "CardVaccines",
+                        principalColumn: "CardVaccineID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,6 +96,11 @@ namespace API.AmparoPet.Migrations
                 name: "IX_CarerPet_PetsPetID",
                 table: "CarerPet",
                 column: "PetsPetID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vaccine_CardVaccineId",
+                table: "Vaccine",
+                column: "CardVaccineId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -70,10 +109,16 @@ namespace API.AmparoPet.Migrations
                 name: "CarerPet");
 
             migrationBuilder.DropTable(
+                name: "Vaccine");
+
+            migrationBuilder.DropTable(
                 name: "Carer");
 
             migrationBuilder.DropTable(
                 name: "Pet");
+
+            migrationBuilder.DropTable(
+                name: "CardVaccines");
         }
     }
 }
