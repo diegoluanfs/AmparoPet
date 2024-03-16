@@ -12,7 +12,12 @@ namespace API.AmparoPet.Models
         public int AddressID { get; set; }
 
         [StringLength(50, MinimumLength = 3)]
-        public string Name { get; set; }
+        public string Cep { get; set; }
+        public string Logradouro { get; set; }
+        public string Complemento { get; set; }
+        public string Bairro { get; set; }
+        public string Localidade { get; set; }
+        public string UF { get; set; }
         public Carer Carer { get; set; }
         public Post Post { get; set; }
     }
