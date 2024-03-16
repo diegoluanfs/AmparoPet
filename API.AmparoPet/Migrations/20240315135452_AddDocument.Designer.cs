@@ -4,6 +4,7 @@ using API.AmparoPet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.AmparoPet.Migrations
 {
     [DbContext(typeof(AmparoPetContext))]
-    partial class AmparoPetContextModelSnapshot : ModelSnapshot
+    [Migration("20240315135452_AddDocument")]
+    partial class AddDocument
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,21 +159,6 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("CarerPet");
                 });
 
-            modelBuilder.Entity("CarerPhoto", b =>
-                {
-                    b.Property<int>("CaregiversID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PhotosPhotoID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CaregiversID", "PhotosPhotoID");
-
-                    b.HasIndex("PhotosPhotoID");
-
-                    b.ToTable("CarerPhoto");
-                });
-
             modelBuilder.Entity("PetPhoto", b =>
                 {
                     b.Property<int>("PetsPetID")
@@ -242,21 +229,6 @@ namespace API.AmparoPet.Migrations
                     b.HasOne("API.AmparoPet.Models.Pet", null)
                         .WithMany()
                         .HasForeignKey("PetsPetID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CarerPhoto", b =>
-                {
-                    b.HasOne("API.AmparoPet.Models.Carer", null)
-                        .WithMany()
-                        .HasForeignKey("CaregiversID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.AmparoPet.Models.Photo", null)
-                        .WithMany()
-                        .HasForeignKey("PhotosPhotoID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

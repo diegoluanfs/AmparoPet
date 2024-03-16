@@ -30,5 +30,8 @@ namespace API.AmparoPet.Models
         }
 
         public ICollection<Pet> Pets { get; set; }
+        public Address Address { get; set; }
+        public Document Document { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 }

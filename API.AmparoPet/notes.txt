@@ -1,7 +1,9 @@
 ﻿Para criar as migrations pela primeira vez:
 
 	dotnet ef migrations add InitialCreate --project [caminho completo do diretório]
+	dotnet ef migrations add InitialCreate --project dotnet ef database update --project D:\Diego\Projetos-2024\AmparoPet\AmparoPet\API.AmparoPet\API.AmparoPet.csproj
 
 Para atualizar o banco de dados:
 
 	dotnet ef database update --project [caminho completo do diretório]
+	dotnet ef database update --project D:\Diego\Projetos-2024\AmparoPet\AmparoPet\API.AmparoPet\API.AmparoPet.csproj

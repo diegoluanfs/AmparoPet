@@ -13,6 +13,8 @@ public class AmparoPetContext : DbContext
     public DbSet<Carer> Caregivers { get; set; }
     public DbSet<Vaccine> Vaccines { get; set; }
     public DbSet<Photo> Photos { get; set; }
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<Document> Documents { get; set; }
     public DbSet<CardVaccine> CardVaccines { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,5 +40,15 @@ public class AmparoPetContext : DbContext
             .HasForeignKey(v => v.CardVaccineId);
 
         modelBuilder.Entity<Photo>().ToTable(nameof(Photo));
+
+        modelBuilder.Entity<Carer>().ToTable(nameof(Carer))
+            .HasOne(p => p.Address)
+            .WithOne(cv => cv.Carer)
+            .HasForeignKey<Address>(cv => cv.AddressID);
+
+        modelBuilder.Entity<Carer>().ToTable(nameof(Carer))
+            .HasOne(p => p.Document)
+            .WithOne(cv => cv.Carer)
+            .HasForeignKey<Document>(cv => cv.DocumentID);
     }
 }
