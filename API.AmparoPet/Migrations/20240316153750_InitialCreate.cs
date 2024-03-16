@@ -24,7 +24,25 @@ namespace API.AmparoPet.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Documents",
+                name: "Comments",
+                columns: table => new
+                {
+                    CommentID = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CarerID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentID);
+                    table.ForeignKey(
+                        name: "FK_Comments_Carer_CarerID",
+                        column: x => x.CarerID,
+                        principalTable: "Carer",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Document",
                 columns: table => new
                 {
                     DocumentID = table.Column<int>(type: "int", nullable: false),
@@ -32,9 +50,9 @@ namespace API.AmparoPet.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Documents", x => x.DocumentID);
+                    table.PrimaryKey("PK_Document", x => x.DocumentID);
                     table.ForeignKey(
-                        name: "FK_Documents_Carer_DocumentID",
+                        name: "FK_Document_Carer_DocumentID",
                         column: x => x.DocumentID,
                         principalTable: "Carer",
                         principalColumn: "ID",
@@ -42,47 +60,45 @@ namespace API.AmparoPet.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Post",
                 columns: table => new
                 {
                     PostID = table.Column<int>(type: "int", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: false),
-                    CarerId = table.Column<int>(type: "int", nullable: false)
+                    CarerID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.PostID);
+                    table.PrimaryKey("PK_Post", x => x.PostID);
                     table.ForeignKey(
-                        name: "FK_Posts_Carer_CarerId",
-                        column: x => x.CarerId,
+                        name: "FK_Post_Carer_CarerID",
+                        column: x => x.CarerID,
                         principalTable: "Carer",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "Address",
                 columns: table => new
                 {
                     AddressID = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    PostId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.AddressID);
+                    table.PrimaryKey("PK_Address", x => x.AddressID);
                     table.ForeignKey(
-                        name: "FK_Addresses_Carer_AddressID",
+                        name: "FK_Address_Carer_AddressID",
                         column: x => x.AddressID,
                         principalTable: "Carer",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Addresses_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
-                        principalColumn: "PostID");
+                        name: "FK_Address_Post_AddressID",
+                        column: x => x.AddressID,
+                        principalTable: "Post",
+                        principalColumn: "PostID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,9 +113,9 @@ namespace API.AmparoPet.Migrations
                 {
                     table.PrimaryKey("PK_Pet", x => x.PetID);
                     table.ForeignKey(
-                        name: "FK_Pet_Posts_PostId",
+                        name: "FK_Pet_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "PostID");
                 });
 
@@ -115,14 +131,32 @@ namespace API.AmparoPet.Migrations
                 {
                     table.PrimaryKey("PK_Photo", x => x.PhotoID);
                     table.ForeignKey(
-                        name: "FK_Photo_Posts_PostId",
+                        name: "FK_Photo_Post_PostId",
                         column: x => x.PostId,
-                        principalTable: "Posts",
+                        principalTable: "Post",
                         principalColumn: "PostID");
                 });
 
             migrationBuilder.CreateTable(
-                name: "CardVaccines",
+                name: "Reaction",
+                columns: table => new
+                {
+                    ReactionID = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reaction", x => x.ReactionID);
+                    table.ForeignKey(
+                        name: "FK_Reaction_Post_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Post",
+                        principalColumn: "PostID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CardVaccine",
                 columns: table => new
                 {
                     CardVaccineID = table.Column<int>(type: "int", nullable: false),
@@ -130,9 +164,9 @@ namespace API.AmparoPet.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CardVaccines", x => x.CardVaccineID);
+                    table.PrimaryKey("PK_CardVaccine", x => x.CardVaccineID);
                     table.ForeignKey(
-                        name: "FK_CardVaccines_Pet_CardVaccineID",
+                        name: "FK_CardVaccine_Pet_CardVaccineID",
                         column: x => x.CardVaccineID,
                         principalTable: "Pet",
                         principalColumn: "PetID",
@@ -225,19 +259,12 @@ namespace API.AmparoPet.Migrations
                 {
                     table.PrimaryKey("PK_Vaccine", x => x.VaccineId);
                     table.ForeignKey(
-                        name: "FK_Vaccine_CardVaccines_CardVaccineId",
+                        name: "FK_Vaccine_CardVaccine_CardVaccineId",
                         column: x => x.CardVaccineId,
-                        principalTable: "CardVaccines",
+                        principalTable: "CardVaccine",
                         principalColumn: "CardVaccineID",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_PostId",
-                table: "Addresses",
-                column: "PostId",
-                unique: true,
-                filter: "[PostId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CarerPet_PetsPetID",
@@ -248,6 +275,11 @@ namespace API.AmparoPet.Migrations
                 name: "IX_CarerPhoto_PhotosPhotoID",
                 table: "CarerPhoto",
                 column: "PhotosPhotoID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_CarerID",
+                table: "Comments",
+                column: "CarerID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pet_PostId",
@@ -265,9 +297,14 @@ namespace API.AmparoPet.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_CarerId",
-                table: "Posts",
-                column: "CarerId");
+                name: "IX_Post_CarerID",
+                table: "Post",
+                column: "CarerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reaction_PostId",
+                table: "Reaction",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vaccine_CardVaccineId",
@@ -278,7 +315,7 @@ namespace API.AmparoPet.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "CarerPet");
@@ -287,10 +324,16 @@ namespace API.AmparoPet.Migrations
                 name: "CarerPhoto");
 
             migrationBuilder.DropTable(
-                name: "Documents");
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Document");
 
             migrationBuilder.DropTable(
                 name: "PetPhoto");
+
+            migrationBuilder.DropTable(
+                name: "Reaction");
 
             migrationBuilder.DropTable(
                 name: "Vaccine");
@@ -299,13 +342,13 @@ namespace API.AmparoPet.Migrations
                 name: "Photo");
 
             migrationBuilder.DropTable(
-                name: "CardVaccines");
+                name: "CardVaccine");
 
             migrationBuilder.DropTable(
                 name: "Pet");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "Post");
 
             migrationBuilder.DropTable(
                 name: "Carer");

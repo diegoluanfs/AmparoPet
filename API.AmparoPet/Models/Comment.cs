@@ -1,19 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace API.AmparoPet.Models
 {
-    public class Address
+    public class Comment
     {
-
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Number")]
-        public int AddressID { get; set; }
+        public int CommentID { get; set; }
 
-        [StringLength(50, MinimumLength = 3)]
+        [Required]
+        [Display(Name = "Name")]
+        [StringLength(50)]
         public string Name { get; set; }
-        public Carer Carer { get; set; }
-        public Post Post { get; set; }
+
     }
 }

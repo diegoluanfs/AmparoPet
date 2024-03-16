@@ -17,6 +17,8 @@ namespace API.AmparoPet.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<CardVaccine> CardVaccines { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Reaction> Reactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,33 +49,20 @@ namespace API.AmparoPet.Data
                 .WithOne(cv => cv.Carer)
                 .HasForeignKey<Address>(cv => cv.AddressID);
 
+            modelBuilder.Entity<Address>().ToTable(nameof(Address));
+            modelBuilder.Entity<Document>().ToTable(nameof(Document));
+            modelBuilder.Entity<Reaction>().ToTable(nameof(Reaction));
+            modelBuilder.Entity<CardVaccine>().ToTable(nameof(CardVaccine));
             modelBuilder.Entity<Carer>().ToTable(nameof(Carer))
                 .HasOne(p => p.Document)
                 .WithOne(cv => cv.Carer)
                 .HasForeignKey<Document>(cv => cv.DocumentID);
 
-            modelBuilder.Entity<Post>()
-                .HasOne(p => p.Carer)
-                .WithMany(c => c.Posts)
-                .HasForeignKey(p => p.CarerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Post>()
-                .HasMany(p => p.Pets)
-                .WithOne(p => p.Post)
-                .HasForeignKey(p => p.PostId);
-
-            modelBuilder.Entity<Post>()
+            modelBuilder.Entity<Post>().ToTable(nameof(Post))
                 .HasOne(p => p.Address)
-                .WithOne(a => a.Post)
-                .HasForeignKey<Address>(a => a.PostId);
+                .WithOne(cv => cv.Post)
+                .HasForeignKey<Address>(cv => cv.AddressID);
 
-            modelBuilder.Entity<Post>()
-                .HasMany(p => p.Photos)
-                .WithOne(ph => ph.Post)
-                .HasForeignKey(ph => ph.PostId);
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

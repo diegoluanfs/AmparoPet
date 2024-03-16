@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.AmparoPet.Migrations
 {
     [DbContext(typeof(AmparoPetContext))]
-    [Migration("20240316041523_InitialCreate")]
+    [Migration("20240316153750_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,16 +33,9 @@ namespace API.AmparoPet.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("int");
-
                     b.HasKey("AddressID");
 
-                    b.HasIndex("PostId")
-                        .IsUnique()
-                        .HasFilter("[PostId] IS NOT NULL");
-
-                    b.ToTable("Addresses");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.CardVaccine", b =>
@@ -56,7 +49,7 @@ namespace API.AmparoPet.Migrations
 
                     b.HasKey("CardVaccineID");
 
-                    b.ToTable("CardVaccines");
+                    b.ToTable("CardVaccine", (string)null);
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.Carer", b =>
@@ -83,6 +76,26 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("Carer", (string)null);
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CarerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CommentID");
+
+                    b.HasIndex("CarerID");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.Document", b =>
                 {
                     b.Property<int>("DocumentID")
@@ -94,7 +107,7 @@ namespace API.AmparoPet.Migrations
 
                     b.HasKey("DocumentID");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Document", (string)null);
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
@@ -140,10 +153,7 @@ namespace API.AmparoPet.Migrations
                     b.Property<int>("PostID")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarerId")
+                    b.Property<int?>("CarerID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -153,9 +163,29 @@ namespace API.AmparoPet.Migrations
 
                     b.HasKey("PostID");
 
-                    b.HasIndex("CarerId");
+                    b.HasIndex("CarerID");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Post", (string)null);
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Reaction", b =>
+                {
+                    b.Property<int>("ReactionID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReactionID");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Reaction", (string)null);
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.Vaccine", b =>
@@ -239,7 +269,9 @@ namespace API.AmparoPet.Migrations
 
                     b.HasOne("API.AmparoPet.Models.Post", "Post")
                         .WithOne("Address")
-                        .HasForeignKey("API.AmparoPet.Models.Address", "PostId");
+                        .HasForeignKey("API.AmparoPet.Models.Address", "AddressID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Carer");
 
@@ -257,6 +289,13 @@ namespace API.AmparoPet.Migrations
                     b.Navigation("Pet");
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.Comment", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Carer", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("CarerID");
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.Document", b =>
                 {
                     b.HasOne("API.AmparoPet.Models.Carer", "Carer")
@@ -271,7 +310,7 @@ namespace API.AmparoPet.Migrations
             modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
                 {
                     b.HasOne("API.AmparoPet.Models.Post", "Post")
-                        .WithMany("Pets")
+                        .WithMany()
                         .HasForeignKey("PostId");
 
                     b.Navigation("Post");
@@ -280,7 +319,7 @@ namespace API.AmparoPet.Migrations
             modelBuilder.Entity("API.AmparoPet.Models.Photo", b =>
                 {
                     b.HasOne("API.AmparoPet.Models.Post", "Post")
-                        .WithMany("Photos")
+                        .WithMany()
                         .HasForeignKey("PostId");
 
                     b.Navigation("Post");
@@ -288,13 +327,18 @@ namespace API.AmparoPet.Migrations
 
             modelBuilder.Entity("API.AmparoPet.Models.Post", b =>
                 {
-                    b.HasOne("API.AmparoPet.Models.Carer", "Carer")
+                    b.HasOne("API.AmparoPet.Models.Carer", null)
                         .WithMany("Posts")
-                        .HasForeignKey("CarerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("CarerID");
+                });
 
-                    b.Navigation("Carer");
+            modelBuilder.Entity("API.AmparoPet.Models.Reaction", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.Vaccine", b =>
@@ -357,6 +401,8 @@ namespace API.AmparoPet.Migrations
                 {
                     b.Navigation("Address");
 
+                    b.Navigation("Comments");
+
                     b.Navigation("Document");
 
                     b.Navigation("Posts");
@@ -370,10 +416,6 @@ namespace API.AmparoPet.Migrations
             modelBuilder.Entity("API.AmparoPet.Models.Post", b =>
                 {
                     b.Navigation("Address");
-
-                    b.Navigation("Pets");
-
-                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }
