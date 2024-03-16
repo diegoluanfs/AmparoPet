@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.AmparoPet.Migrations
 {
     [DbContext(typeof(AmparoPetContext))]
-    [Migration("20240315134213_AddPhoto")]
-    partial class AddPhoto
+    [Migration("20240316041523_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,27 @@ namespace API.AmparoPet.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("API.AmparoPet.Models.Address", b =>
+                {
+                    b.Property<int>("AddressID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AddressID");
+
+                    b.HasIndex("PostId")
+                        .IsUnique()
+                        .HasFilter("[PostId] IS NOT NULL");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("API.AmparoPet.Models.CardVaccine", b =>
                 {
@@ -62,6 +83,20 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("Carer", (string)null);
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.Document", b =>
+                {
+                    b.Property<int>("DocumentID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("DocumentID");
+
+                    b.ToTable("Documents");
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
                 {
                     b.Property<int>("PetID")
@@ -71,7 +106,12 @@ namespace API.AmparoPet.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
                     b.HasKey("PetID");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Pet", (string)null);
                 });
@@ -85,9 +125,37 @@ namespace API.AmparoPet.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
                     b.HasKey("PhotoID");
 
+                    b.HasIndex("PostId");
+
                     b.ToTable("Photo", (string)null);
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Post", b =>
+                {
+                    b.Property<int>("PostID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CarerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("PostID");
+
+                    b.HasIndex("CarerId");
+
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.Vaccine", b =>
@@ -131,6 +199,21 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("CarerPet");
                 });
 
+            modelBuilder.Entity("CarerPhoto", b =>
+                {
+                    b.Property<int>("CaregiversID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhotosPhotoID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CaregiversID", "PhotosPhotoID");
+
+                    b.HasIndex("PhotosPhotoID");
+
+                    b.ToTable("CarerPhoto");
+                });
+
             modelBuilder.Entity("PetPhoto", b =>
                 {
                     b.Property<int>("PetsPetID")
@@ -146,6 +229,23 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("PetPhoto");
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.Address", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Carer", "Carer")
+                        .WithOne("Address")
+                        .HasForeignKey("API.AmparoPet.Models.Address", "AddressID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.AmparoPet.Models.Post", "Post")
+                        .WithOne("Address")
+                        .HasForeignKey("API.AmparoPet.Models.Address", "PostId");
+
+                    b.Navigation("Carer");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.CardVaccine", b =>
                 {
                     b.HasOne("API.AmparoPet.Models.Pet", "Pet")
@@ -155,6 +255,46 @@ namespace API.AmparoPet.Migrations
                         .IsRequired();
 
                     b.Navigation("Pet");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Document", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Carer", "Carer")
+                        .WithOne("Document")
+                        .HasForeignKey("API.AmparoPet.Models.Document", "DocumentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Carer");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Post", "Post")
+                        .WithMany("Pets")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Photo", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Post", "Post")
+                        .WithMany("Photos")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Post", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Carer", "Carer")
+                        .WithMany("Posts")
+                        .HasForeignKey("CarerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Carer");
                 });
 
             modelBuilder.Entity("API.AmparoPet.Models.Vaccine", b =>
@@ -183,6 +323,21 @@ namespace API.AmparoPet.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("CarerPhoto", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.Carer", null)
+                        .WithMany()
+                        .HasForeignKey("CaregiversID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.AmparoPet.Models.Photo", null)
+                        .WithMany()
+                        .HasForeignKey("PhotosPhotoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PetPhoto", b =>
                 {
                     b.HasOne("API.AmparoPet.Models.Pet", null)
@@ -198,9 +353,27 @@ namespace API.AmparoPet.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.Carer", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("Document");
+
+                    b.Navigation("Posts");
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
                 {
                     b.Navigation("CardVaccine");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Post", b =>
+                {
+                    b.Navigation("Address");
+
+                    b.Navigation("Pets");
+
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

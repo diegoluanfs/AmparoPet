@@ -16,5 +16,7 @@ namespace API.AmparoPet.Models
         public CardVaccine CardVaccine { get; set; }
         public ICollection<Carer> Caregivers { get; set; }
         public ICollection<Photo> Photos { get; set; }
+        public int? PostId { get; set; }
+        public Post Post { get; set; }
     }
 }

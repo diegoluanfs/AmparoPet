@@ -14,5 +14,7 @@ namespace API.AmparoPet.Models
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
         public Carer Carer { get; set; }
+        public int? PostId { get; set; }
+        public Post Post { get; set; }
     }
 }

@@ -15,5 +15,7 @@ namespace API.AmparoPet.Models
         public string Name { get; set; }
         public ICollection<Pet> Pets { get; set; }
         public ICollection<Carer> Caregivers { get; set; }
+        public int? PostId { get; set; }
+        public Post Post { get; set; }
     }
 }

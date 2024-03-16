@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace API.AmparoPet.Models
 {
@@ -33,5 +34,7 @@ namespace API.AmparoPet.Models
         public Address Address { get; set; }
         public Document Document { get; set; }
         public ICollection<Photo> Photos { get; set; }
+
+        public ICollection<Post> Posts { get; set; }
     }
 }
