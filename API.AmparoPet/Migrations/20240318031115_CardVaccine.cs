@@ -4,7 +4,7 @@
 
 namespace API.AmparoPet.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class CardVaccine : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,6 +27,19 @@ namespace API.AmparoPet.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CardVaccine",
+                columns: table => new
+                {
+                    CardVaccineID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardVaccine", x => x.CardVaccineID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Carer",
                 columns: table => new
                 {
@@ -46,14 +59,55 @@ namespace API.AmparoPet.Migrations
                         principalColumn: "AddressID");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Pet",
+                columns: table => new
+                {
+                    PetID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    CarerID = table.Column<int>(type: "int", nullable: true),
+                    CardVaccineID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pet", x => x.PetID);
+                    table.ForeignKey(
+                        name: "FK_Pet_CardVaccine_CardVaccineID",
+                        column: x => x.CardVaccineID,
+                        principalTable: "CardVaccine",
+                        principalColumn: "CardVaccineID");
+                    table.ForeignKey(
+                        name: "FK_Pet_Carer_CarerID",
+                        column: x => x.CarerID,
+                        principalTable: "Carer",
+                        principalColumn: "CarerID");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Carer_AddressID",
                 table: "Carer",
                 column: "AddressID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pet_CardVaccineID",
+                table: "Pet",
+                column: "CardVaccineID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pet_CarerID",
+                table: "Pet",
+                column: "CarerID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Pet");
+
+            migrationBuilder.DropTable(
+                name: "CardVaccine");
+
             migrationBuilder.DropTable(
                 name: "Carer");
 

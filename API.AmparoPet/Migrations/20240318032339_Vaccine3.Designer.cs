@@ -4,6 +4,7 @@ using API.AmparoPet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.AmparoPet.Migrations
 {
     [DbContext(typeof(AmparoPetContext))]
-    partial class AmparoPetContextModelSnapshot : ModelSnapshot
+    [Migration("20240318032339_Vaccine3")]
+    partial class Vaccine3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

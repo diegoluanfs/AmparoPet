@@ -6,13 +6,13 @@ namespace API.AmparoPet.Models
 {
     public class CardVaccine
     {
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "Number")]
         public int CardVaccineID { get; set; }
 
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
-        public Pet Pet { get; set; }
+        public ICollection<Vaccine> Vaccines { get; set; }
     }
 }

@@ -32,7 +32,8 @@ namespace API.AmparoPet.Models
 
         public int? AddressID { get; set; }
         public Address Address { get; set; }
-        //    public ICollection<Pet> Pets { get; set; }
+        public ICollection<Pet> Pets { get; set; }
+
         //    public Document? Document { get; set; }
         //    public ICollection<Photo>? Photos { get; set; }
 

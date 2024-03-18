@@ -15,10 +15,11 @@ namespace API.AmparoPet.Models
         public string Name { get; set; }
 
         public DateTime AdministeredDate { get; set; }
-
+        public int? CardVaccineID { get; set; }
+        public CardVaccine CardVaccine { get; set; }
         //[Display(Name = "Card Vaccine ID")]
         //public int CardVaccineId { get; set; }
-        
+
         //public CardVaccine CardVaccine { get; set; }
     }
 }

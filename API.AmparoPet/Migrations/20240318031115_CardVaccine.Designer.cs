@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.AmparoPet.Migrations
 {
     [DbContext(typeof(AmparoPetContext))]
-    [Migration("20240318004639_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240318031115_CardVaccine")]
+    partial class CardVaccine
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,23 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("Address", (string)null);
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.CardVaccine", b =>
+                {
+                    b.Property<int>("CardVaccineID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CardVaccineID"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CardVaccineID");
+
+                    b.ToTable("CardVaccine", (string)null);
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.Carer", b =>
                 {
                     b.Property<int>("CarerID")
@@ -85,6 +102,33 @@ namespace API.AmparoPet.Migrations
                     b.ToTable("Carer", (string)null);
                 });
 
+            modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
+                {
+                    b.Property<int>("PetID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PetID"), 1L, 1);
+
+                    b.Property<int?>("CardVaccineID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CarerID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("PetID");
+
+                    b.HasIndex("CardVaccineID");
+
+                    b.HasIndex("CarerID");
+
+                    b.ToTable("Pet", (string)null);
+                });
+
             modelBuilder.Entity("API.AmparoPet.Models.Carer", b =>
                 {
                     b.HasOne("API.AmparoPet.Models.Address", "Address")
@@ -92,6 +136,26 @@ namespace API.AmparoPet.Migrations
                         .HasForeignKey("AddressID");
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Pet", b =>
+                {
+                    b.HasOne("API.AmparoPet.Models.CardVaccine", "CardVaccine")
+                        .WithMany()
+                        .HasForeignKey("CardVaccineID");
+
+                    b.HasOne("API.AmparoPet.Models.Carer", "Carer")
+                        .WithMany("Pets")
+                        .HasForeignKey("CarerID");
+
+                    b.Navigation("CardVaccine");
+
+                    b.Navigation("Carer");
+                });
+
+            modelBuilder.Entity("API.AmparoPet.Models.Carer", b =>
+                {
+                    b.Navigation("Pets");
                 });
 #pragma warning restore 612, 618
         }
