@@ -6,7 +6,7 @@ namespace API.AmparoPet.Models
 {
     public class Carer
     {
-        public int ID { get; set; }
+        public int CarerID { get; set; }
 
         [Required]
         [Display(Name = "Last Name")]
@@ -30,12 +30,13 @@ namespace API.AmparoPet.Models
             get { return LastName + ", " + FirstMidName; }
         }
 
-        public ICollection<Pet> Pets { get; set; }
+        public int? AddressID { get; set; }
         public Address Address { get; set; }
-        public Document Document { get; set; }
-        public ICollection<Photo> Photos { get; set; }
+        //    public ICollection<Pet> Pets { get; set; }
+        //    public Document? Document { get; set; }
+        //    public ICollection<Photo>? Photos { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        //    public ICollection<Post>? Posts { get; set; }
+        //    public ICollection<Comment>? Comments { get; set; }
     }
 }

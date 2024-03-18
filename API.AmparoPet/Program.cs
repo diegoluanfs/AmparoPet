@@ -1,12 +1,24 @@
 using API.AmparoPet.Data;
 using Microsoft.EntityFrameworkCore;
-var builder = WebApplication.CreateBuilder(args);
+using System;
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AmparoPetContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AmparoPetContext")));
+
+builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "AmparoPet API", Version = "v1" });
+    //c.IncludeXmlComments(System.AppDomain.CurrentDomain.BaseDirectory + @"API.AmparoPet.xml");
+});
+
+// Add services to the container.
+builder.Services.AddRazorPages();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -35,6 +47,14 @@ using (var scope = app.Services.CreateScope())
     DbInitializer.Initialize(context);
 }
 
+app.UseSwagger();
+//app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AmparoPet API V1");
+});
+
+app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

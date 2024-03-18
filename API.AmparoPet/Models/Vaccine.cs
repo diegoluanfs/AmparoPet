@@ -16,9 +16,9 @@ namespace API.AmparoPet.Models
 
         public DateTime AdministeredDate { get; set; }
 
-        [Display(Name = "Card Vaccine ID")]
-        public int CardVaccineId { get; set; }
+        //[Display(Name = "Card Vaccine ID")]
+        //public int CardVaccineId { get; set; }
         
-        public CardVaccine CardVaccine { get; set; }
+        //public CardVaccine CardVaccine { get; set; }
     }
 }

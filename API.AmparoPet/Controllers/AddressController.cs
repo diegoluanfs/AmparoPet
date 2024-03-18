@@ -1,21 +1,84 @@
-﻿using API.AmparoPet.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using API.AmparoPet.Models;
+using API.AmparoPet.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.AmparoPet.Controllers
 {
-    public class AddressController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AddressController : ControllerBase
     {
-        public IActionResult Index()
-        {
-            var Address = new Address();
-            Address.Cep = "97105255";
-            Address.Logradouro = "Rua Robson Flores";
-            Address.Complemento = "(N Res Fernando Ferrari)";
-            Address.Bairro = "Camobi";
-            Address.Localidade = "Santa Maria";
-            Address.UF = "RS";
+        private readonly IAddressService _addressService;
 
-            return View();
+        public AddressController(IAddressService addressService)
+        {
+            _addressService = addressService;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Address>> Get(int id)
+        {
+            var address = await _addressService.GetAddressByIdAsync(id);
+            if (address == null)
+            {
+                return NotFound();
+            }
+
+            return address;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Address>>> GetAll()
+        {
+            var addresses = await _addressService.GetAllAddressesAsync();
+            return addresses;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Address>> Create(Address addresses)
+        {
+
+            var address = new Address();
+            address.Cep = "97105255";
+            address.Logradouro = "Rua Robson Flores";
+            address.Complemento = "(N Res Fernando Ferrari)";
+            address.Bairro = "Camobi";
+            address.Localidade = "Santa Maria";
+            address.UF = "RS";
+
+            var newAddress = await _addressService.CreateAddressAsync(address);
+            return CreatedAtAction(nameof(Get), new { id = newAddress.AddressID }, newAddress);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Address address)
+        {
+            if (id != address.AddressID)
+            {
+                return BadRequest();
+            }
+
+            var updatedAddress = await _addressService.UpdateAddressAsync(address);
+            if (updatedAddress == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _addressService.DeleteAddressAsync(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
