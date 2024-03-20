@@ -17,18 +17,20 @@ namespace API.AmparoPet.Models
         [Column("FirstName")]
         [Display(Name = "First Name")]
         [StringLength(50)]
-        public string FirstMidName { get; set; }
+        public string FirstName { get; set; }
 
-        //[DataType(DataType.Date)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        //[Display(Name = "Hire Date")]
-        //public DateTime HireDate { get; set; }
+        [Required]
+        [Display(Name = "Email")]
+        [StringLength(50)]
+        public string Email { get; set; }
 
-        [Display(Name = "Full Name")]
-        public string FullName
-        {
-            get { return LastName + ", " + FirstMidName; }
-        }
+        [DataType(DataType.Date)]
+        [Display(Name = "Created At")]
+        public DateTime CreatedAt { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Updated At")]
+        public DateTime UpdatedAt { get; set; }
 
         public int? AddressID { get; set; }
         public Address Address { get; set; }

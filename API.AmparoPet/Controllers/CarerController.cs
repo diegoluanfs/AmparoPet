@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.AmparoPet.Models;
+using API.AmparoPet.Models.DTO;
 using API.AmparoPet.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,8 +38,16 @@ namespace API.AmparoPet.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Carer>> Create(Carer carer)
+        public async Task<ActionResult<Carer>> Create(CarerDto carerDto)
         {
+            Carer carer = new Carer();
+
+            var date = DateTime.Now;
+            carer.FirstName = carerDto.FirstName;
+            carer.LastName = carerDto.LastName;
+            carer.CreatedAt = date;
+            carer.UpdatedAt = date;
+            carer.Email = carerDto.Email;
 
             var newCarer = await _carerService.CreateCarerAsync(carer);
             return CreatedAtAction(nameof(Get), new { id = newCarer.CarerID }, newCarer);

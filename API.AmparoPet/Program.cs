@@ -28,6 +28,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
+builder.Services.AddScoped<ICarerService, CarerService>();
+builder.Services.AddScoped<ICarerRepository, CarerRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,6 +64,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseAuthorization();
+//app.UseCors();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

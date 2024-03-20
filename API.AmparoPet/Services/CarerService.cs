@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using API.AmparoPet.Models;
+﻿using API.AmparoPet.Models;
 using API.AmparoPet.Repositories;
 
 namespace API.AmparoPet.Services
