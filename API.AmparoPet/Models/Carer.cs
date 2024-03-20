@@ -37,7 +37,7 @@ namespace API.AmparoPet.Models
         //    public Document? Document { get; set; }
         //    public ICollection<Photo>? Photos { get; set; }
 
-        //    public ICollection<Post>? Posts { get; set; }
+        public ICollection<Post> Posts { get; set; }
         //    public ICollection<Comment>? Comments { get; set; }
     }
 }

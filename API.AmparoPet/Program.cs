@@ -1,4 +1,6 @@
 using API.AmparoPet.Data;
+using API.AmparoPet.Repositories;
+using API.AmparoPet.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -18,9 +20,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+//builder.Services.AddRazorPages();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// No método ConfigureServices da classe Startup
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 var app = builder.Build();
 
@@ -55,13 +61,12 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseAuthorization();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.MapControllers();
+
 app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
 
 app.Run();

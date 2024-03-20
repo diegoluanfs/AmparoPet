@@ -4,6 +4,7 @@ using API.AmparoPet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.AmparoPet.Migrations
 {
     [DbContext(typeof(AmparoPetContext))]
-    partial class AmparoPetContextModelSnapshot : ModelSnapshot
+    [Migration("20240318223041_Post")]
+    partial class Post
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,6 +134,9 @@ namespace API.AmparoPet.Migrations
                     b.Property<int>("PostID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AddressID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CarerID")
                         .HasColumnType("int");
 
@@ -141,6 +146,8 @@ namespace API.AmparoPet.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("PostID");
+
+                    b.HasIndex("AddressID");
 
                     b.HasIndex("CarerID");
 
@@ -199,9 +206,15 @@ namespace API.AmparoPet.Migrations
 
             modelBuilder.Entity("API.AmparoPet.Models.Post", b =>
                 {
+                    b.HasOne("API.AmparoPet.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressID");
+
                     b.HasOne("API.AmparoPet.Models.Carer", "Carer")
                         .WithMany("Posts")
                         .HasForeignKey("CarerID");
+
+                    b.Navigation("Address");
 
                     b.Navigation("Carer");
                 });
