@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.AmparoPet.Data;
+﻿using API.AmparoPet.Data;
 using API.AmparoPet.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.AmparoPet.Repositories
+namespace API.AmparoPet.Addresses.Repositories
 {
     public class AddressRepository : IAddressRepository
     {

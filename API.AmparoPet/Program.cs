@@ -1,6 +1,10 @@
+using API.AmparoPet.Addresses.Repositories;
+using API.AmparoPet.Addresses.Services;
+using API.AmparoPet.Caregivers.Repositories;
+using API.AmparoPet.Caregivers.Services;
 using API.AmparoPet.Data;
-using API.AmparoPet.Repositories;
-using API.AmparoPet.Services;
+using API.AmparoPet.Pets.Repositories;
+using API.AmparoPet.Pets.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -30,6 +34,9 @@ builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 builder.Services.AddScoped<ICarerService, CarerService>();
 builder.Services.AddScoped<ICarerRepository, CarerRepository>();
+
+builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
 
 var app = builder.Build();
 

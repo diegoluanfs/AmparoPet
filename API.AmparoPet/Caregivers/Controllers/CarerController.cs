@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.AmparoPet.Caregivers.DTO;
+using API.AmparoPet.Caregivers.Services;
 using API.AmparoPet.Models;
-using API.AmparoPet.Models.DTO;
-using API.AmparoPet.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.AmparoPet.Controllers
+namespace API.AmparoPet.Caregivers.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

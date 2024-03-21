@@ -14,6 +14,11 @@ namespace API.AmparoPet.Models
 
         [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Date Of Birth")]
+        public DateTime DateOfBirth { get; set; }
+
         public int? CarerID { get; set; }
         public Carer Carer { get; set; }
         public int? CardVaccineID { get; set; }

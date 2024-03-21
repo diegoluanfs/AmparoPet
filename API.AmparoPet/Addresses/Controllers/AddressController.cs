@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using API.AmparoPet.Addresses.Services;
 using API.AmparoPet.Models;
-using API.AmparoPet.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.AmparoPet.Controllers
+namespace API.AmparoPet.Addresses.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

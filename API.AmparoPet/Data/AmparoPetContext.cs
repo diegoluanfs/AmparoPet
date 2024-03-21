@@ -9,7 +9,7 @@ namespace API.AmparoPet.Data
         {
         }
 
-        //public DbSet<Pet> Pets { get; set; }
+        public DbSet<Pet> Pets { get; set; }
         public DbSet<Carer> Caregivers { get; set; }
         public DbSet<Vaccine> Vaccines { get; set; }
         //public DbSet<Photo> Photos { get; set; }

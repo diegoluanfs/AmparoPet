@@ -5,7 +5,7 @@ using API.AmparoPet.Data;
 using API.AmparoPet.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.AmparoPet.Repositories
+namespace API.AmparoPet.Caregivers.Repositories
 {
     public class CarerRepository : ICarerRepository
     {

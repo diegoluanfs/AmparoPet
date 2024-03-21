@@ -1,7 +1,7 @@
-﻿using API.AmparoPet.Models;
-using API.AmparoPet.Repositories;
+﻿using API.AmparoPet.Caregivers.Repositories;
+using API.AmparoPet.Models;
 
-namespace API.AmparoPet.Services
+namespace API.AmparoPet.Caregivers.Services
 {
     public class CarerService : ICarerService
     {

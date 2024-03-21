@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace API.AmparoPet.Models.DTO
+namespace API.AmparoPet.Caregivers.DTO
 {
     public class CarerDto
     {

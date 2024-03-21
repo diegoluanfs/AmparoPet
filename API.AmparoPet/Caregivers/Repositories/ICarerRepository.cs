@@ -1,8 +1,6 @@
 ﻿using API.AmparoPet.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace API.AmparoPet.Repositories
+namespace API.AmparoPet.Caregivers.Repositories
 {
     public interface ICarerRepository
     {

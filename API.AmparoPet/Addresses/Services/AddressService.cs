@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using API.AmparoPet.Addresses.Repositories;
 using API.AmparoPet.Models;
-using API.AmparoPet.Repositories;
 
-namespace API.AmparoPet.Services
+namespace API.AmparoPet.Addresses.Services
 {
     public class AddressService : IAddressService
     {

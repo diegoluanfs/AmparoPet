@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using API.AmparoPet.Models;
 
-namespace API.AmparoPet.Services
+namespace API.AmparoPet.Addresses.Services
 {
     public interface IAddressService
     {
